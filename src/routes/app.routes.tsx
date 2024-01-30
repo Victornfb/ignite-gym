@@ -37,12 +37,12 @@ export function AppRoutes() {
           backgroundColor: colors.gray[600],
           borderTopWidth: 0,
           height: Platform.OS === "android" ? 'auto' : 96,
-          paddingBottom: sizes[10],
-          paddingTop: sizes[6]
+          paddingBottom: sizes[8],
+          paddingTop: sizes[8]
         }
       }}
     >
-      <Screen 
+      <Screen
         name='home'
         component={Home}
         options={{
@@ -52,7 +52,7 @@ export function AppRoutes() {
         }}
       />
 
-      <Screen 
+      <Screen
         name='history'
         component={History}
         options={{
@@ -62,7 +62,7 @@ export function AppRoutes() {
         }}
       />
 
-      <Screen 
+      <Screen
         name='profile'
         component={Profile}
         options={{
@@ -72,7 +72,7 @@ export function AppRoutes() {
         }}
       />
 
-      <Screen 
+      <Screen
         name='exercise'
         component={Exercise}
         options={{ tabBarButton: () => null }}
