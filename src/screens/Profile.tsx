@@ -1,3 +1,4 @@
+import * as ImagePicker from 'expo-image-picker';
 import { Center, Heading, ScrollView, Skeleton, Text, VStack } from 'native-base';
 import { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
@@ -11,6 +12,29 @@ const PHOTO_SIZE = 33;
 
 export function Profile() {
   const [photoIsLoading, setPhotoIsLoading] = useState(false);
+  const [userPhoto, setUserPhoto] = useState<string|null>(null);
+
+  async function handleUserPhotoSelected() {
+    try {
+      setPhotoIsLoading(true);
+
+      const selectedPhoto = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        quality: 1,
+        aspect: [4, 4],
+        allowsEditing: true,
+        selectionLimit: 1,
+      });
+
+      if (selectedPhoto.canceled) return;
+
+      setUserPhoto(selectedPhoto.assets[0].uri);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setPhotoIsLoading(false);
+    }
+  }
 
   return (
     <VStack flex={1}>
@@ -19,7 +43,7 @@ export function Profile() {
       <ScrollView contentContainerStyle={{ paddingBottom: 36 }}>
         <Center mt={6} px={10}>
           {
-            photoIsLoading ?
+            photoIsLoading || !userPhoto ?
               <Skeleton
                 w={PHOTO_SIZE}
                 h={PHOTO_SIZE}
@@ -29,13 +53,15 @@ export function Profile() {
               />
             :
               <UserPhoto 
-                source={{ uri: 'https://github.com/Victornfb.png' }}
+                source={{ uri: userPhoto }}
                 alt="Foto do usuário"
                 size={PHOTO_SIZE}
               />
           }
 
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={handleUserPhotoSelected}
+          >
             <Text color="green.500" fontWeight="bold" fontSize="md" mt={2} mb={8}>
               Alterar Foto
             </Text>
