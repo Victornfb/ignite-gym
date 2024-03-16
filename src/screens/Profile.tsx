@@ -1,5 +1,6 @@
+import * as FileSystem from 'expo-file-system';
 import * as ImagePicker from 'expo-image-picker';
-import { Center, Heading, ScrollView, Skeleton, Text, VStack } from 'native-base';
+import { Center, Heading, ScrollView, Skeleton, Text, Toast, VStack } from 'native-base';
 import { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 
@@ -26,9 +27,21 @@ export function Profile() {
         selectionLimit: 1,
       });
 
-      if (selectedPhoto.canceled) return;
+      const photoUri = selectedPhoto?.assets?.[0]?.uri;
 
-      setUserPhoto(selectedPhoto.assets[0].uri);
+      if (selectedPhoto.canceled || !photoUri) return;
+
+      const photoInfo = await FileSystem.getInfoAsync(photoUri) as FileSystem.FileInfo;
+
+      if (photoInfo.exists && photoInfo.size / 1024 / 1024 > 0.5) {
+        return Toast.show({
+          title: "Imagem muito grande. Selecione uma imagem de até 5MB.",
+          placement: "top",
+          bgColor: "red.500",
+        })
+      }
+
+      setUserPhoto(photoUri);
     } catch (err) {
       console.error(err);
     } finally {
