@@ -80,7 +80,7 @@ export function Profile() {
             </Text>
           </TouchableOpacity>
 
-          <Heading color="gray.200" fontSize="md" mb={4} alignSelf="flex-start">
+          <Heading color="gray.200" fontSize="md" mb={4} alignSelf="flex-start" fontFamily="heading">
             Dados pessoais
           </Heading>
 
@@ -95,7 +95,7 @@ export function Profile() {
             isDisabled
           />
 
-          <Heading color="gray.200" fontSize="md" mb={4} alignSelf="flex-start" mt={4}>
+          <Heading color="gray.200" fontSize="md" mb={4} alignSelf="flex-start" mt={4} fontFamily="heading">
             Alterar senha
           </Heading>
 
